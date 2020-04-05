@@ -1,0 +1,134 @@
+<template>
+    <div class="row header">
+        <div class="col-lg-3 col-md-6 logo-container">
+            <router-link to="/">
+                <div class="logo">
+                    <span class="logo-part-1">Stack</span><span class="logo-part-2">Overgrow</span><span class="logo-part-3"><font-awesome-icon icon="seedling" /></span>
+                </div>
+            </router-link>
+        </div>
+        <div class="search-container col-lg-6 col-md-12">
+            <input type="text" placeholder="Search..." class="search-bar">
+        </div>
+        <div class="col-lg-3 col-md-6 nav-container">
+            <nav class="nav">
+                <router-link to="/sign-in" class="auth-btn">Sign In</router-link>
+                <span class="line"> / </span>
+                <router-link to="/sign-up" class="auth-btn">Sign Up</router-link>
+            </nav>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    
+}
+</script>
+
+<style scoped>
+    * {
+        box-sizing: border-box;
+    }
+
+    .header {
+        background: #3e474f;
+        padding: 0.5rem 2rem;
+        margin: 0;
+    }
+
+    .logo {
+        font-size: 1.6rem;
+    }
+
+    .logo-part-1 {
+        font-weight: 600;
+        color: #fff;
+    }
+
+    .logo-part-2,
+    .logo-part-3 {
+        font-weight: 800;
+        color: #5fcf80;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    .search-bar {
+        width: 100%;
+        background-color: #f9fafa;
+        border-color: #d4d9dd;
+        transition: .2s;
+        margin: 0;
+        font-size: 1rem;
+        padding: .7rem 1rem;
+        outline: none;
+        border: 2px solid #d4d9dd;
+        border-radius: 4px;
+    }
+
+    .search-bar:hover {
+        border-color: #8c9aa6;
+    }
+
+    .nav {
+        text-align: right;
+        margin-top: .5rem;
+        display: block;
+    }
+
+    .auth-btn, .line {
+        color: #fff;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .auth-btn:hover {
+        color: #5fcf80;
+        transition: .2s;
+    }
+
+    @media all and (max-width: 1024px) {
+        .header {
+            padding-bottom: 2rem;
+        }
+
+        .logo-container {
+            order: 0;
+        }
+
+        .nav-container {
+            order: 1;
+        }
+
+        .search-container {
+            order: 2;
+        }
+        
+        .logo-container {
+            margin: 1rem 0;
+            display: inline-block;
+            width: 50%;
+        }
+
+        .nav-container {
+            margin: 1rem 0;
+            display: inline-block;
+            width: 50%;
+        }
+    }
+
+    @media all and (max-width: 576px) {
+        .logo {
+            margin: 1rem;
+        }
+
+        .logo-part-1,
+        .logo-part-2 {
+            display: none;
+        }
+    }
+
+</style>
