@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    Welcome to the Home Page :)
     <app-question></app-question>
   </div>
 </template>
