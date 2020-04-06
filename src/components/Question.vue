@@ -1,13 +1,19 @@
 <template>
     <div class="question-container">
-        <h1 class="question">A very very very very very very very very very very very very very very very very very very very very very long Question Name</h1>
-        <p class="question-meta">Posted <strong>3 hours</strong> ago by <strong>bob12</strong></p>
+        <h1 class="question">{{ questionTitle }}</h1>
+        <p class="question-meta">Posted <strong>{{ timeAgo }}</strong> ago by <strong>{{ author }}</strong></p>
         <p class="answers-info">
             <span class="answers-count">0</span>
             Answers
         </p>
     </div>
 </template>
+
+<script>
+export default {
+    props: ['questionTitle', 'timeAgo', 'author',]
+}
+</script>
 
 <style scoped>
     .question-container {
@@ -54,5 +60,11 @@
         font-weight: 500;
         color: #4b5658;
         display: block;
+    }
+
+    @media all and (max-width: 960px) {
+        .question {
+            font-size: 18px;
+        }
     }
 </style>

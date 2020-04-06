@@ -12,6 +12,9 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSeedling } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+// Import VueFire
+import { firestorePlugin } from 'vuefire';
+
 // Use Bootstrap
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -19,6 +22,9 @@ Vue.use(IconsPlugin);
 // Use FontAwesome
 library.add(faSeedling)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+// Use VueFire
+Vue.use(firestorePlugin);
 
 Vue.config.productionTip = false;
 

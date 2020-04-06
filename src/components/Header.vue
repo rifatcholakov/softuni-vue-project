@@ -12,17 +12,29 @@
         </div>
         <div class="col-lg-3 col-md-6 nav-container">
             <nav class="nav">
-                <router-link to="/sign-in" class="auth-btn">Sign In</router-link>
-                <span class="line"> / </span>
-                <router-link to="/sign-up" class="auth-btn">Sign Up</router-link>
+                <div v-if="!authUser">
+                    <router-link to="/sign-in" class="auth-btn">Sign In</router-link>
+                    <span class="line"> / </span>
+                    <router-link to="/sign-up" class="auth-btn">Sign Up</router-link>
+                </div>
+                <div v-if="authUser">
+                    <a @click="signOut" class="auth-btn">Sign Out</a>
+                </div>
             </nav>
         </div>
     </div>
 </template>
 
 <script>
+import { Auth } from '../firebase/auth';
+
 export default {
-    
+    props: ['authUser'],
+    methods: {
+        signOut() {
+            Auth.signOut().then(() => this.$router.push('/'));
+        }
+    }
 }
 </script>
 
@@ -88,6 +100,7 @@ export default {
     .auth-btn:hover {
         color: #5fcf80;
         transition: .2s;
+        cursor: pointer;
     }
 
     @media all and (max-width: 1024px) {

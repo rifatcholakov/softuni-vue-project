@@ -3,14 +3,13 @@
         <div class="row">
             <div class="col">
                 <div class="box">
-                    <h1 class="question-title">A very very very very very very very very very very very very very very very very very very very very very long Question Name</h1>
-                    <p class="question-meta">Posted <strong>3 hours</strong> ago by <strong>bob12</strong></p>
-                    <p class="question-detail">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    <h1 class="question-title">{{ question.title }}</h1>
+                    <p class="question-meta">Posted <strong>{{ question.timeAgo }}</strong> ago by <strong>{{ question.postedBy }}</strong></p>
+                    <p class="question-detail" v-html="question.description"> 
                     </p>
                     <div class="manage">
-                        <button class="edit-question">Edit</button>
-                        <button class="delete-question">Delete</button>
+                        <button class="edit-question" @click="editQuestion">Edit</button>
+                        <button class="delete-question" @click="deleteQuestion">Delete</button>
                     </div>
                 </div>
             </div>
@@ -59,17 +58,42 @@
 
 <script>
 import { VueEditor } from "vue2-editor";
+import { DB } from '../firebase/db';
+import * as moment from 'moment';
 
 export default {
-  components: {
-    VueEditor
-  },
+    components: {
+        VueEditor
+    },
 
-  data() {
-    return {
-      content: ""
-    };
-  }
+    data() {
+        return {
+        question: {},
+        content: ""
+        };
+    },
+
+    methods: {
+        deleteQuestion() {
+            DB.collection('questions')
+              .doc(this.$route.params.id)
+              .delete()
+              .then(() => this.$router.push('/'));
+        },
+
+        editQuestion() {
+            this.$router.push('/ask-question/' + this.$route.params.id);
+        }
+    },
+
+    created() {
+        const id = this.$route.params.id;
+        
+        DB.collection('questions')
+            .doc(id)
+            .get()
+            .then(snapshot => this.question = { ...snapshot.data(), timeAgo: moment(snapshot.data().datePosted.toDate()).fromNow() });
+    }
 };
 </script>
 

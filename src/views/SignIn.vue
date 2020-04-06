@@ -3,10 +3,11 @@
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <form class="form">
-                    <div class="error-message">Error Message</div>
-                    <input type="email" class="form-field" placeholder="Email Address">
-                    <input type="password" class="form-field" placeholder="Password">
+                <form class="form" @submit.prevent="signIn">
+                    <h2 class="title">Sign in into your account</h2>
+                    <div class="error-message" v-show="errorMessage">{{ errorMessage }}</div>
+                    <input type="email" class="form-field" placeholder="Email Address" required v-model="email">
+                    <input type="password" class="form-field" placeholder="Password" required v-model="password">
                     <button class="signin-btn">Sign in</button>
                 </form>
             </div>
@@ -14,6 +15,28 @@
         </div>
     </div>
 </template>
+
+<script>
+import { Auth } from '../firebase/auth';
+
+export default {
+    data() {
+        return {
+            email: '',
+            password: '',
+            errorMessage: ''
+        }
+    },
+    methods: {
+        signIn() {
+            Auth.signInWithEmailAndPassword(this.email, this.password)
+                .then(() => {
+                    this.$router.push('/')
+                }, error => this.errorMessage = error.message);
+        }
+    }
+}
+</script>
 
 <style scoped>
     .form {
@@ -23,6 +46,11 @@
         margin-top: 30px;
         border-radius: 4px;
         box-shadow: 0 2px 0 0 rgba(0,0,0,0.1);
+    }
+
+    .title {
+        font-size: 1.5rem;
+        margin-bottom: 25px;
     }
 
     .form-field {

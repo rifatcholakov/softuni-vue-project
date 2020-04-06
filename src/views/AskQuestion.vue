@@ -2,12 +2,12 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <form class="form">
+                <form class="form" @submit.prevent="postQuestion">
                     <div class="error-message">Your Question Error Messages</div>
-                    <input type="text" placeholder="You question" class="form-field">
+                    <input type="text" placeholder="You question" class="form-field" v-model="question.title">
                     <div class="error-message">Vue Editor Error Messages</div>
-                    <vue-editor v-model="content"></vue-editor>
-                    <button class="ask-btn">Ask</button>
+                    <vue-editor v-model="question.description"></vue-editor>
+                    <button class="ask-btn">{{ btnText }}</button>
                 </form>
             </div>
         </div>
@@ -16,17 +16,60 @@
 
 <script>
 import { VueEditor } from "vue2-editor";
+import { DB } from '../firebase/db';
 
 export default {
-  components: {
-    VueEditor
-  },
+    props: ['authUser'],
 
-  data() {
-    return {
-      content: ""
-    };
-  }
+    components: {
+        VueEditor
+    },
+
+    data() {
+        return {
+            question: {
+                title: '',
+                description: '',
+                datePosted: new Date()
+            },
+            btnText: 'Ask',
+            editMode: false
+        };
+    },
+
+    methods: {
+        postQuestion() {
+            if(!this.editMode) {
+                this.question.postedBy = this.authUser.displayName;
+
+                DB.collection('questions')
+                .add(this.question)
+                .then(doc => this.$router.push('/question/' + doc.id));
+            } else {
+                DB.collection('questions')
+                  .doc(this.$route.params.id)
+                  .set(this.question)
+                  .then(() => this.$router.push('/question/' + this.$route.params.id))
+            }
+        }
+    },
+
+    created() {
+        if(this.$route.params.id) {
+            this.editMode = true;
+
+            const id = this.$route.params.id;
+        
+            DB.collection('questions')
+                .doc(id)
+                .get()
+                .then(snapshot => this.question = snapshot.data());
+            
+            this.btnText = 'Edit';
+        } else {
+            this.editMode = false;
+        }
+    }
 };
 </script>
 

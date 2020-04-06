@@ -1,7 +1,7 @@
 <template>
   <div class="app">
-    <app-header></app-header>
-    <router-view/>
+    <app-header :authUser="authUser" ></app-header>
+    <router-view :authUser="authUser" />
     <app-footer></app-footer>
   </div>
 </template>
@@ -9,11 +9,20 @@
 <script>
 import Header from './components/Header.vue';
 import Footer from './components/Footer.vue';
+import { Auth } from './firebase/auth';
 
 export default {
   components: {
     'app-header': Header,
     'app-footer': Footer
+  },
+  data() {
+    return {
+      authUser: null
+    }
+  },
+  created() {
+    Auth.onAuthStateChanged(user => this.authUser = user);
   }
 }
 </script>
