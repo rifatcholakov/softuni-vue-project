@@ -3,7 +3,9 @@
         <div class="row">
             <div class="col">
                 <form class="form">
+                    <div class="error-message">Your Question Error Messages</div>
                     <input type="text" placeholder="You question" class="form-field">
+                    <div class="error-message">Vue Editor Error Messages</div>
                     <vue-editor v-model="content"></vue-editor>
                     <button class="ask-btn">Ask</button>
                 </form>

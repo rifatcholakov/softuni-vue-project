@@ -48,6 +48,7 @@
             <div class="col">
                 <div class="box">
                     <h2 class="your-answer-title">Your Answer</h2>
+                    <div class="error-message">Error Message</div>
                     <vue-editor v-model="content"></vue-editor>
                     <button class="post-answer-btn">Post Your Answer</button>
                 </div>

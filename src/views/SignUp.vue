@@ -4,6 +4,7 @@
             <div class="col-lg-3 col-md-2 col-sm-1"></div>
             <div class="col-lg-6">
                 <form class="form">
+                    <div class="error-message">Error Message</div>
                     <input type="text" class="form-field" placeholder="Username">
                     <input type="email" class="form-field" placeholder="Email Address">
                     <input type="password" class="form-field" placeholder="Password">

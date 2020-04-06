@@ -24,4 +24,14 @@ export default {
 .app {
     font-family: 'Nunito', sans-serif;
 }
+
+.error-message {
+    background: #ed5a5a;
+    color: #fff;
+    border-radius: 4px;
+    border: solid 2px #ed5a5a;
+    padding: 5px 10px;
+    margin: 10px 0;
+}
+
 </style>
