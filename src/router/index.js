@@ -3,6 +3,8 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import SignIn from '../views/SignIn.vue';
 import SignUp from '../views/SignUp.vue';
+import AskQuestion from '../views/AskQuestion.vue';
+import QuestionDetail from '../views/QuestionDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -29,6 +31,16 @@ const routes = [
     path: '/sign-up',
     component: SignUp,
     name: 'SingUp'
+  },
+  {
+    path: '/ask-question',
+    component: AskQuestion,
+    name: 'AskQuestion'
+  },
+  {
+    path: '/question',
+    component: QuestionDetail,
+    name: 'question'
   },
 ];
 
