@@ -22,7 +22,17 @@ export default {
     }
   },
   created() {
-    Auth.onAuthStateChanged(user => this.authUser = user);
+    Auth.onAuthStateChanged(user => { 
+      this.authUser = user
+      
+      if(user) {
+        localStorage.setItem('signedIn', '1')
+      } else {
+        localStorage.removeItem('signedIn');
+      }
+    });
+
+    
   }
 }
 </script>

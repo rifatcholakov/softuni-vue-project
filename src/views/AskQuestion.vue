@@ -84,6 +84,18 @@ export default {
         } else {
             this.editMode = false;
         }
+    },
+
+    beforeRouteEnter(to, from, next) {
+        const signedIn = localStorage.getItem('signedIn');
+        
+        if(!signedIn) {
+            next({
+            path: '/sign-in'
+            })
+        } else {
+            next();
+        }
     }
 };
 </script>

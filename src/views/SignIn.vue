@@ -48,6 +48,18 @@ export default {
                     this.$router.push('/')
                 }, error => this.errorMessage = error.message);
         }
+    },
+
+    beforeRouteEnter(to, from, next) {
+        const signedIn = localStorage.getItem('signedIn');
+        
+        if(signedIn) {
+            next({
+            path: '/'
+            })
+        } else {
+            next();
+        }
     }
 }
 </script>
