@@ -4,10 +4,12 @@
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
                 <form class="form" @submit.prevent="signIn">
+                    <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
                     <h2 class="title">Sign in into your account</h2>
-                    <div class="error-message" v-show="errorMessage">{{ errorMessage }}</div>
-                    <input type="email" class="form-field" placeholder="Email Address" required v-model="email">
-                    <input type="password" class="form-field" placeholder="Password" required v-model="password">
+                    <div class="error-message" v-if="emailErrorMessage">{{ emailErrorMessage }}</div>
+                    <input type="email" class="form-field" placeholder="Email Address" v-model="email">
+                    <div class="error-message" v-if="passwordErrorMessage">{{ passwordErrorMessage }}</div>
+                    <input type="password" class="form-field" placeholder="Password" v-model="password">
                     <button class="signin-btn">Sign in</button>
                 </form>
             </div>
@@ -24,11 +26,23 @@ export default {
         return {
             email: '',
             password: '',
-            errorMessage: ''
+            errorMessage: '',
+            emailErrorMessage: '',
+            passwordErrorMessage: ''
         }
     },
     methods: {
         signIn() {
+            if(this.email === '' || this.password === '') {
+                this.email === '' ? this.emailErrorMessage = 'Please enter an email' : this.emailErrorMessage = '';
+                this.password === '' ? this.passwordErrorMessage = 'Please enter a password' : this.passwordErrorMessage = '';
+
+                return;
+            } else {
+                this.emailErrorMessage = '';
+                this.passwordErrorMessage = '';
+            }
+
             Auth.signInWithEmailAndPassword(this.email, this.password)
                 .then(() => {
                     this.$router.push('/')

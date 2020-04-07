@@ -4,11 +4,14 @@
             <div class="col-lg-3 col-md-2 col-sm-1"></div>
             <div class="col-lg-6">
                 <form class="form" @submit.prevent="signUp">
+                    <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
                     <h2 class="title">Create an account</h2>
-                    <div class="error-message" v-show="errorMessage">{{ errorMessage }}</div>
-                    <input type="text" class="form-field" placeholder="Display Name" required v-model="user.displayName">
-                    <input type="email" class="form-field" placeholder="Email Address" required v-model="user.email">
-                    <input type="password" class="form-field" placeholder="Password" required v-model="user.password" @blur="passwordLengthValidation">
+                    <div class="error-message" v-if="displayNameErrorMessage">{{ displayNameErrorMessage }}</div>
+                    <input type="text" class="form-field" placeholder="Display Name" v-model="user.displayName">
+                    <div class="error-message" v-if="emailErrorMessage">{{ emailErrorMessage }}</div>
+                    <input type="email" class="form-field" placeholder="Email Address" v-model="user.email">
+                    <div class="error-message" v-if="passwordErrorMessage">{{ passwordErrorMessage }}</div>
+                    <input type="password" class="form-field" placeholder="Password" v-model="user.password">
                     <button class="signup-btn">Sign up</button>
                 </form>
             </div>
@@ -29,11 +32,26 @@ export default {
                 email: '',
                 password: ''
             },
-            errorMessage: ''
+            errorMessage: '',
+            displayNameErrorMessage: '',
+            emailErrorMessage: '',
+            passwordErrorMessage: '',
         }
     },
     methods: {
         signUp() {
+             if(this.user.displayName === '' || this.user.email === '' || this.user.password === '') {
+                this.user.displayName === '' ? this.displayNameErrorMessage = 'Please enter a display name' : this.displayNameErrorMessage = '';
+                this.user.email === '' ? this.emailErrorMessage = 'Please enter an email' : this.emailErrorMessage = '';
+                this.user.password === '' ? this.passwordErrorMessage = 'Please enter a password' : this.passwordErrorMessage = '';
+
+                return;
+            } else {
+                this.displayNameErrorMessage = '';
+                this.emailErrorMessage = '';
+                this.passwordErrorMessage = '';
+            }           
+
             Auth.createUserWithEmailAndPassword(this.user.email, this.user.password)
                 .then(() => {
                     Auth.currentUser.updateProfile({
@@ -42,10 +60,6 @@ export default {
                 .then(() => this.$router.push('/'));
                 }, error => this.errorMessage = error.message);
         },
-        passwordLengthValidation() {
-            (this.user.password.length < 6 && this.user.password.length !== 0) ? this.errorMessage = 'The password should be at least 6 characters long!' : this.errorMessage = '';
-
-        }
     }
 }
 </script>

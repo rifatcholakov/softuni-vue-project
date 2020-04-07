@@ -7,10 +7,12 @@
                     <p class="question-meta">Posted <strong>{{ question.timeAgo }}</strong> ago by <strong>{{ question.postedBy }}</strong></p>
                     <p class="question-detail" v-html="question.description"> 
                     </p>
+                    <template v-if="authUser">
                     <div class="manage" v-if="question.postedBy === authUser.displayName">
                         <button class="edit-question" @click="editQuestion">Edit</button>
                         <button class="delete-question" @click="deleteQuestion">Delete</button>
                     </div>
+                    </template>
                 </div>
             </div>
         </div>
@@ -24,18 +26,20 @@
                 <div class="box" v-for="(answer, index) in question.answers" :key="index">
                     <p class="question-meta">Posted <strong>{{ answer.timeAgo }}</strong> ago by <strong>{{ answer.author }}</strong></p>
                     <p class="answer" v-html="answer.content"></p>
+                    <template v-if="authUser">
                     <div class="manage" v-if="answer.author === authUser.displayName">
                         <button class="edit-question" @click="editAnswer(index)">Edit</button>
                         <button class="delete-question" @click="deleteAnswer(index)">Delete</button>
                     </div>
+                    </template>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="box" id="editAnswer">
+                <div class="box" id="editAnswer" v-if="authUser">
                     <h2 class="your-answer-title">Your Answer</h2>
-                    <div class="error-message">Error Message</div>
+                    <div class="error-message" v-if="errorMessage">{{ errorMessage }}</div>
                     <form @submit.prevent="postAnswer">
                         <vue-editor v-model="content"></vue-editor>
                         <button class="post-answer-btn">{{editMode ? 'Edit' : 'Post'}} Your Answer</button>
@@ -64,7 +68,8 @@ export default {
         question: {},
         content: "",
         editMode: false,
-        editIndex: null
+        editIndex: null,
+        errorMessage: ''
         };
     },
 
@@ -81,6 +86,11 @@ export default {
         },
         
         postAnswer() {
+            if(this.content === '') {
+                this.errorMessage = 'Sorry you can\'t send a blank answer!';
+                return;
+            }
+
             if(!this.editMode) {
                 const answer = {
                     content: this.content,
@@ -119,11 +129,13 @@ export default {
 
             this.editIndex = index;
             this.editMode = true;
+            this.errorMessage = '';
         },
 
         cancelEdit() {
             this.editMode = false;
             this.editIndex = null;
+            this.errorMessage = '';
             this.content = '';
         }
     },

@@ -25,22 +25,22 @@ const routes = [
   {
     path: '/sign-in',
     component: SignIn,
-    name: 'SingIn'
+    name: 'SignIn',
   },
   {
     path: '/sign-up',
     component: SignUp,
-    name: 'SingUp'
+    name: 'SignUp',
   },
   {
     path: '/ask-question',
     component: AskQuestion,
-    name: 'AskQuestion'
+    name: 'AskQuestion',
   },
   {
     path: '/ask-question/:id',
     component: AskQuestion,
-    name: 'EditQuestion'
+    name: 'EditQuestion',
   },
   {
     path: '/question/:id',

@@ -3,9 +3,9 @@
         <div class="row">
             <div class="col">
                 <form class="form" @submit.prevent="postQuestion">
-                    <div class="error-message">Your Question Error Messages</div>
+                    <div class="error-message" v-if="titleErrorMessage">{{ titleErrorMessage }}</div>
                     <input type="text" placeholder="You question" class="form-field" v-model="question.title">
-                    <div class="error-message">Vue Editor Error Messages</div>
+                    <div class="error-message" v-if="descriptionErrorMessage">{{ descriptionErrorMessage }}</div>
                     <vue-editor v-model="question.description"></vue-editor>
                     <button class="ask-btn">{{ btnText }}</button>
                 </form>
@@ -34,12 +34,26 @@ export default {
                 answers: []
             },
             btnText: 'Ask',
-            editMode: false
+            editMode: false,
+            titleErrorMessage: '',
+            descriptionErrorMessage: ''
         };
     },
 
     methods: {
         postQuestion() {
+            if(this.question.title === '' || this.question.description === '') {
+                this.question.title === '' ? this.titleErrorMessage = 'Please enter a question' : this.titleErrorMessage = '';
+                this.question.description === '' ? this.descriptionErrorMessage = 'Please describe your question in more details' : this.descriptionErrorMessage = '';
+
+                return;
+            }
+
+            if(this.question.description === '') {
+                this.descriptionErrorMessage = 'Please describe your question in more detail!';
+                return;
+            }
+
             if(!this.editMode) {
                 this.question.postedBy = this.authUser.displayName;
 
