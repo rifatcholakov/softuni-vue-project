@@ -5,6 +5,8 @@ import SignIn from '../views/SignIn.vue';
 import SignUp from '../views/SignUp.vue';
 import AskQuestion from '../views/AskQuestion.vue';
 import QuestionDetail from '../views/QuestionDetail.vue';
+import Search from '../views/Search.vue';
+import NotFound from '../views/NotFound.vue';
 
 Vue.use(VueRouter);
 
@@ -38,6 +40,16 @@ const routes = [
     path: '/question/:id',
     component: QuestionDetail,
     name: 'Question'
+  },
+  {
+    path: '/search',
+    component: Search,
+    name: 'Search'
+  },
+  {
+    path: '*',
+    component: NotFound,
+    name: 'NotFound'
   },
 ];
 

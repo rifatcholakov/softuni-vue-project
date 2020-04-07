@@ -8,7 +8,7 @@
             </router-link>
         </div>
         <div class="search-container col-lg-6 col-md-12">
-            <input type="text" placeholder="Search..." class="search-bar">
+            <input type="text" placeholder="Search..." class="search-bar" @input="search" v-model="searchTerm">
         </div>
         <div class="col-lg-3 col-md-6 nav-container">
             <nav class="nav">
@@ -30,9 +30,18 @@ import { Auth } from '../firebase/auth';
 
 export default {
     props: ['authUser'],
+    data() {
+        return {
+            searchTerm: ''
+        }
+    },
     methods: {
         signOut() {
             Auth.signOut().then(() => this.$router.push('/'));
+        },
+
+        search() {
+            this.$router.push({ path: '/search', query: { term: this.searchTerm } });
         }
     }
 }

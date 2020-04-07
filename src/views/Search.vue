@@ -1,13 +1,9 @@
 <template>
   <div class="container">
-    <div class="ask">
-        You have a question, don't wonder but
-        <router-link to="/ask-question" class="my-btn ask-btn">Ask</router-link>
+    <div class="no-results" v-if="noResults || this.questions.length === 0">
+        <p>Sorry, no results found!</p>
     </div>
-    <ul>
-      <div class="no-results" v-if="questions.length === 0">
-        <p>Loading Questions...</p>
-      </div>
+    <ul v-if="!noResults">
       <li v-for="(question, index) in questions" :key="index">
         <router-link :to="'/question/' + question.id">
           <app-question :questionTitle="question.title" :timeAgo="question.timeAgo" :author="question.postedBy" :answers="question.answers.length"></app-question>
@@ -20,7 +16,6 @@
 <script>
 import Question from '../components/Question.vue'
 import { DB } from '../firebase/db';
-import * as moment from 'moment';
 
 export default {
   components: {
@@ -28,24 +23,35 @@ export default {
   },
   data() {
     return {
-      questions: []
+        searchTerm: '',
+        questions: [],
+        noResults: false
     }
   },
+  
   created() {
+    this.searchTerm = this.$route.query.term;
+
+    if(this.searchTerm == '') {
+        this.noResults = true;
+    }
+
     DB.collection('questions')
-      .get()
-      .then(querySnapshot => {
-        const documents = querySnapshot
-                        .docs
-                        .map(doc => ({ 
-                          ...doc.data(), 
-                          id: doc.id, 
-                          timeAgo: moment(doc.data().datePosted.toDate()).fromNow()
-                          }));
-      this.questions = documents
-                      .sort((a, b) => b.datePosted.toDate() - a.datePosted.toDate());
-    })
-  }
+    .get()
+    .then((querySnapshot) => {
+        querySnapshot
+            .docs
+            .map(doc => {
+                const question = doc.data();
+                const reg = new RegExp(this.searchTerm.toLowerCase(), "g");
+
+                if(question.title.toLowerCase().match(reg)) {
+                    this.questions.push(question);
+                }
+            });
+    });
+
+  },
 };
 </script>
 

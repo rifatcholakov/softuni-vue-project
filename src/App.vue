@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <app-header :authUser="authUser" ></app-header>
-    <router-view :authUser="authUser" />
+    <router-view :authUser="authUser" :key="$route.query.term" />
     <app-footer></app-footer>
   </div>
 </template>
@@ -52,5 +52,24 @@ export default {
     padding: 5px 10px;
     margin: 10px 0;
 }
+
+  .my-btn {
+      color: #fff;
+      border: solid 2px #3ac162;
+      background-color: #3ac162;
+      font-size: 14px;
+      height: 40px;
+      line-height: 36px;
+      padding: 0 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 800;
+  }
+
+  @media all and (max-width: 960px) {
+      .my-btn {
+          width: 100%;
+      }
+  }
 
 </style>
