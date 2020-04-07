@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="ask">
-        You have a question, don't wonder but
+        You have a question? Don't wonder but
         <router-link to="/ask-question" class="my-btn ask-btn">Ask</router-link>
     </div>
     <ul>

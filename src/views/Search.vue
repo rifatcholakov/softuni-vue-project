@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <div class="ask">
+        Can't find what you're looking for?
+        <router-link to="/ask-question" class="my-btn ask-btn">Ask</router-link>
+    </div>
     <div class="no-results" v-if="noResults || this.questions.length === 0">
         <p>Sorry, no results found!</p>
     </div>
