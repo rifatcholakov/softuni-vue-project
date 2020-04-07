@@ -30,7 +30,8 @@ export default {
             question: {
                 title: '',
                 description: '',
-                datePosted: new Date()
+                datePosted: new Date(),
+                answers: []
             },
             btnText: 'Ask',
             editMode: false
@@ -43,8 +44,8 @@ export default {
                 this.question.postedBy = this.authUser.displayName;
 
                 DB.collection('questions')
-                .add(this.question)
-                .then(doc => this.$router.push('/question/' + doc.id));
+                  .add(this.question)
+                  .then(doc => this.$router.push('/question/' + doc.id));
             } else {
                 DB.collection('questions')
                   .doc(this.$route.params.id)
@@ -61,9 +62,9 @@ export default {
             const id = this.$route.params.id;
         
             DB.collection('questions')
-                .doc(id)
-                .get()
-                .then(snapshot => this.question = snapshot.data());
+              .doc(id)
+              .get()
+              .then(snapshot => this.question = snapshot.data());
             
             this.btnText = 'Edit';
         } else {

@@ -40,7 +40,7 @@ const routes = [
   {
     path: '/ask-question/:id',
     component: AskQuestion,
-    name: 'AskQuestion'
+    name: 'EditQuestion'
   },
   {
     path: '/question/:id',

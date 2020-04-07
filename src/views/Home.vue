@@ -3,7 +3,7 @@
     <ul>
       <li v-for="(question, index) in questions" :key="index">
         <router-link :to="'/question/' + question.id">
-          <app-question :questionTitle="question.title" :timeAgo="question.timeAgo" :author="question.postedBy"></app-question>
+          <app-question :questionTitle="question.title" :timeAgo="question.timeAgo" :author="question.postedBy" :answers="question.answers.length"></app-question>
         </router-link>
       </li>
     </ul>

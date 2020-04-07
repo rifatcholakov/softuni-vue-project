@@ -15,6 +15,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 // Import VueFire
 import { firestorePlugin } from 'vuefire';
 
+// Import VueScrollTo
+import VueScrollTo from 'vue-scrollto';
+
 // Use Bootstrap
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -25,6 +28,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // Use VueFire
 Vue.use(firestorePlugin);
+
+// Use ScrollTo
+Vue.use(VueScrollTo);
 
 Vue.config.productionTip = false;
 

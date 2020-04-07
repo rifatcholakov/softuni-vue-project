@@ -3,7 +3,7 @@
         <h1 class="question">{{ questionTitle }}</h1>
         <p class="question-meta">Posted <strong>{{ timeAgo }}</strong> ago by <strong>{{ author }}</strong></p>
         <p class="answers-info">
-            <span class="answers-count">0</span>
+            <span class="answers-count">{{ answers }}</span>
             Answers
         </p>
     </div>
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-    props: ['questionTitle', 'timeAgo', 'author',]
+    props: ['questionTitle', 'timeAgo', 'author', 'answers']
 }
 </script>
 

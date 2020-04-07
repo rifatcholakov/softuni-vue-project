@@ -7,7 +7,7 @@
                     <p class="question-meta">Posted <strong>{{ question.timeAgo }}</strong> ago by <strong>{{ question.postedBy }}</strong></p>
                     <p class="question-detail" v-html="question.description"> 
                     </p>
-                    <div class="manage">
+                    <div class="manage" v-if="question.postedBy === authUser.displayName">
                         <button class="edit-question" @click="editQuestion">Edit</button>
                         <button class="delete-question" @click="deleteQuestion">Delete</button>
                     </div>
@@ -16,40 +16,31 @@
         </div>
         <div class="row">
             <div class="col">
-                <h2 class="answers-title">2 Answers</h2>
+                <h2 class="answers-title" v-if="question.answers">{{ question.answers.length }} Answers</h2>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="box">
-                    <p class="question-meta">Posted <strong>3 hours</strong> ago by <strong>bob12</strong></p>
-                    <p class="answer">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                    <div class="manage">
-                        <button class="edit-question">Edit</button>
-                        <button class="delete-question">Delete</button>
-                    </div>
-                </div>
-                <div class="box">
-                    <p class="question-meta">Posted <strong>3 hours</strong> ago by <strong>bob12</strong></p>
-                    <p class="answer">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-                    <div class="manage">
-                        <button class="edit-question">Edit</button>
-                        <button class="delete-question">Delete</button>
+                <div class="box" v-for="(answer, index) in question.answers" :key="index">
+                    <p class="question-meta">Posted <strong>{{ answer.timeAgo }}</strong> ago by <strong>{{ answer.author }}</strong></p>
+                    <p class="answer" v-html="answer.content"></p>
+                    <div class="manage" v-if="answer.author === authUser.displayName">
+                        <button class="edit-question" @click="editAnswer(index)">Edit</button>
+                        <button class="delete-question" @click="deleteAnswer(index)">Delete</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="box">
+                <div class="box" id="editAnswer">
                     <h2 class="your-answer-title">Your Answer</h2>
                     <div class="error-message">Error Message</div>
-                    <vue-editor v-model="content"></vue-editor>
-                    <button class="post-answer-btn">Post Your Answer</button>
+                    <form @submit.prevent="postAnswer">
+                        <vue-editor v-model="content"></vue-editor>
+                        <button class="post-answer-btn">{{editMode ? 'Edit' : 'Post'}} Your Answer</button>
+                        <button class="delete-question" v-if="editMode" @click="cancelEdit">Cancel Editing</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -62,6 +53,8 @@ import { DB } from '../firebase/db';
 import * as moment from 'moment';
 
 export default {
+    props: ['authUser'],
+
     components: {
         VueEditor
     },
@@ -69,7 +62,9 @@ export default {
     data() {
         return {
         question: {},
-        content: ""
+        content: "",
+        editMode: false,
+        editIndex: null
         };
     },
 
@@ -83,6 +78,53 @@ export default {
 
         editQuestion() {
             this.$router.push('/ask-question/' + this.$route.params.id);
+        },
+        
+        postAnswer() {
+            if(!this.editMode) {
+                const answer = {
+                    content: this.content,
+                    author: this.authUser.displayName,
+                    datePosted: new Date(),
+                    timeAgo: 'a few seconds ago'
+                }
+
+                this.question.answers.push(answer);
+            } else {
+                const newContent = this.content;
+                this.question.answers[this.editIndex].content = newContent;
+
+                this.editIndex = null;
+                this.editMode = false;
+            }
+
+            DB.collection('questions')
+              .doc(this.$route.params.id)
+              .update(this.question);
+
+            this.content = '';
+        },
+
+        deleteAnswer(index) {
+            this.question.answers.splice(index, 1);
+
+            DB.collection('questions')
+              .doc(this.$route.params.id)
+              .update(this.question);
+        },
+
+        editAnswer(index) {
+            this.content = this.question.answers[index].content;
+            this.$scrollTo('#editAnswer');
+
+            this.editIndex = index;
+            this.editMode = true;
+        },
+
+        cancelEdit() {
+            this.editMode = false;
+            this.editIndex = null;
+            this.content = '';
         }
     },
 
@@ -92,7 +134,12 @@ export default {
         DB.collection('questions')
             .doc(id)
             .get()
-            .then(snapshot => this.question = { ...snapshot.data(), timeAgo: moment(snapshot.data().datePosted.toDate()).fromNow() });
+            .then(snapshot => {
+                this.question = { ...snapshot.data(), timeAgo: moment(snapshot.data().datePosted.toDate()).fromNow() };
+                this.question.answers.map(answer => {
+                    answer.timeAgo = moment(answer.datePosted.toDate()).fromNow();
+                });
+            });
     }
 };
 </script>
