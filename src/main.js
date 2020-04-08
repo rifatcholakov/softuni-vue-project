@@ -32,7 +32,7 @@ Vue.use(firestorePlugin);
 // Use ScrollTo
 Vue.use(VueScrollTo);
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = true;
 
 new Vue({
   router,
