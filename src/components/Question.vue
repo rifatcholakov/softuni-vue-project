@@ -67,4 +67,10 @@ export default {
             font-size: 18px;
         }
     }
+
+    @media all and (max-width: 400px) {
+        .question-meta {
+        padding-right: 70px;
+        }
+    }
 </style>

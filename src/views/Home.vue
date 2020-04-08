@@ -87,4 +87,16 @@ export default {
     justify-content: center;
     margin-top: 50px;
   }
+
+  @media all and (max-width: 960px) {
+    .ask {
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .ask-btn {
+        text-align: center;
+        margin: 20px 0 0 0;
+    }
+  }
 </style>
