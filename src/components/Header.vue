@@ -1,16 +1,16 @@
 <template>
-    <div class="row header">
-        <div class="col-lg-3 col-md-6 logo-container">
+    <div class="header">
+        <div class="logo-container">
             <router-link to="/">
                 <div class="logo">
                     <span class="logo-part-1">Stack</span><span class="logo-part-2">Overgrow</span><span class="logo-part-3"><font-awesome-icon icon="seedling" /></span>
                 </div>
             </router-link>
         </div>
-        <div class="search-container col-lg-6 col-md-12">
+        <div class="search-container">
             <input type="text" placeholder="Search..." class="search-bar" @input="search" v-model="searchTerm">
         </div>
-        <div class="col-lg-3 col-md-6 nav-container">
+        <div class="nav-container">
             <nav class="nav">
                 <div v-if="!authUser">
                     <router-link to="/sign-in" class="auth-btn">Sign In</router-link>
@@ -56,6 +56,8 @@ export default {
         background: #3e474f;
         padding: 0.5rem 2rem;
         margin: 0;
+        display: flex;
+        justify-content: center;
     }
 
     .logo {
@@ -112,41 +114,54 @@ export default {
         cursor: pointer;
     }
 
+    .logo-container,
+    .nav-container {
+        flex-grow: 1;
+    }
+
+    .search-container {
+        flex-grow: 2;
+    }
+
+    @media all and (min-width: 1025px) {
+        .logo-container,
+        .nav-container {
+            flex-grow: 0;
+            flex-basis: 23%;
+        }
+    }
+
     @media all and (max-width: 1024px) {
+        .logo {
+            font-size: 1.45rem;
+            margin-top: 5px;
+        }
+    }
+
+    @media all and (max-width: 860px) {
         .header {
-            padding-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .logo-container {
             order: 0;
-        }
-
-        .nav-container {
-            order: 1;
+            margin-left: 5px;
+            margin-bottom: 20px;
         }
 
         .search-container {
             order: 2;
-        }
-        
-        .logo-container {
-            margin: 1rem 0;
-            display: inline-block;
-            width: 50%;
+            flex-basis: 100%;
         }
 
         .nav-container {
-            margin: 1rem 0;
-            display: inline-block;
-            width: 50%;
+            order: 1;
+            margin-right: 5px;
+            margin-bottom: 20px;
         }
     }
 
-    @media all and (max-width: 576px) {
-        .logo {
-            margin: 1rem;
-        }
-
+    @media all and (max-width: 480px) {
         .logo-part-1,
         .logo-part-2 {
             display: none;

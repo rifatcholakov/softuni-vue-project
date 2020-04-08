@@ -9,7 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 // Import FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSeedling } from '@fortawesome/free-solid-svg-icons'
+import { faSeedling, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 // Import VueFire
@@ -23,7 +23,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
 // Use FontAwesome
-library.add(faSeedling)
+library.add([faSeedling, faUser])
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // Use VueFire
