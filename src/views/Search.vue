@@ -37,7 +37,7 @@ export default {
     this.searchTerm = this.$route.query.term;
 
     if(this.searchTerm == '') {
-        this.noResults = true;
+        return;
     }
 
     DB.collection('questions')

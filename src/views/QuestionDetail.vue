@@ -21,6 +21,13 @@
                 <h2 class="answers-title" v-if="question.answers">{{ question.answers.length }} Answers</h2>
             </div>
         </div>
+        <div class="row" v-if="!authUser && question.answers.length === 0">
+            <div class="col">
+                <div class="box">
+                    <p class="answer">Be the first to answer this question <router-link class="signIn-cta" to="/sign-in">Sign In</router-link></p>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="box" v-for="(answer, index) in question.answers" :key="index">
@@ -164,6 +171,11 @@ export default {
         margin-top: 30px;
         border-radius: 4px;
         box-shadow: 0 2px 0 0 rgba(0,0,0,0.1);
+    }
+
+    .signIn-cta {
+        font-weight: 700;
+        color: #3ac162;
     }
 
     .question-title {
