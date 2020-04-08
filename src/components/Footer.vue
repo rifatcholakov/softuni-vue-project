@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <footer>
+        <footer class="footer">
             <p class="copy">&copy; {{ year }} StackOvergrow. All rights reserved.</p>
         </footer>
     </div>
@@ -19,6 +19,10 @@ export default {
 <style scoped>
     footer {
         border-top: 1px solid #b2bac2;
+        position: absolute;
+        bottom: 0;
+        left: 6%;
+        right: 6%;
     }
 
     .copy {
