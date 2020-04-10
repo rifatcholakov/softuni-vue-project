@@ -1,24 +1,23 @@
-# softuni-project
+# StackOvergrow(like StackOverflow)
+Q&A app build using Vue. It allows for users ask qustions and give answers regarding certain topic
 
-## Project setup
-```
-npm install
-```
+<img src="https://rifatcholakov.com/wp-content/uploads/2020/04/StackOvergrow.png" />
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Preview
 
-### Compiles and minifies for production
-```
-npm run build
-```
+https://stackovergrow-a6d50.web.app/
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Getting Started
+1. Make sure you have these installed
+	- [node.js](http://nodejs.org/)
+	- [git](http://git-scm.com/)
+2. Clone this repository into your local machine using the terminal (mac) or Gitbash (PC) `> git clone CLONEURL`
+3. CD to the folder `cd FOLDERNAME`
+4. Run `> npm install` to install the project dependencies
+5. Run `> npm run serve` to start live preview server
+6. Navigate to `http://localhost:8080/`
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+The app will automatically reload if you change any of the source files.
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details
