@@ -11,7 +11,24 @@
 
 <script>
 export default {
-    props: ['questionTitle', 'timeAgo', 'author', 'answers']
+    props: {
+        questionTitle: {
+            type: String,
+            required: true
+        },
+        timeAgo: {
+            type: String,
+            required: true
+        },
+        author: {
+            type: String,
+            required: true
+        },
+        answers: {
+            type: Number,
+            required: true
+        }
+    }
 }
 </script>
 
