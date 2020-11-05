@@ -1,4 +1,4 @@
-# StackOvergrow(like StackOverflow)
+# StackOvergrow(just like StackOverflow)
 Q&A app build using Vue. It allows for users ask qustions and give answers regarding certain topic
 
 <img src="https://rifatcholakov.com/wp-content/uploads/2020/04/StackOvergrow.png" />
